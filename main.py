@@ -11,11 +11,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
 import smtplib
 from hashlib import md5
+import os
+from dotenv import load_dotenv
 
-my_email = "shubham.qwerty.12456@gmail.com"
-pswd = "dmhntkmiblpnjklv"
+load_dotenv()
+my_email = os.getenv("EMAIL")
+pswd = os.getenv("PASSWORD")
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
+app.config['SECRET_KEY'] = os.getenv("FLASK_KEY")
 ckeditor = CKEditor(app)
 Bootstrap5(app)
 
@@ -39,7 +42,7 @@ class Base(DeclarativeBase):
     pass
 
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///posts.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DB_URI")
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
@@ -231,7 +234,7 @@ def contact():
         with smtplib.SMTP("smtp.gmail.com") as connection:
             connection.starttls()
             connection.login(user=my_email, password=pswd)
-            connection.sendmail(from_addr=my_email, to_addrs="turshubham@gmail.com",
+            connection.sendmail(from_addr=my_email, to_addrs=os.getenv("REC_EMAIL"),
                                 msg=f"Subject:New Message\n\n"
                                     f"Name: {name.title()}\n"
                                     f"Email: {email}\n"
@@ -241,4 +244,4 @@ def contact():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=False)
