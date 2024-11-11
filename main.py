@@ -221,6 +221,11 @@ def about():
     return render_template("about.html")
 
 
+@app.route("/shubham/my-projects")
+def projects():
+    return render_template("projects.html")
+
+
 @app.route('/contact', methods=["GET", "POST"])
 def contact():
     if request.method == "GET":
