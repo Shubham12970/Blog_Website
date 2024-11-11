@@ -221,9 +221,9 @@ def about():
     return render_template("about.html")
 
 
-@app.route("/shubham/my-projects")
-def projects():
-    return render_template("projects.html")
+@app.route("/my-projects/resume")
+def projects_resume():
+    return render_template("projects_resume.html")
 
 
 @app.route('/contact', methods=["GET", "POST"])
@@ -249,4 +249,4 @@ def contact():
 
 
 if __name__ == "__main__":
-    app.run(debug=False)
+    app.run(debug=True)
